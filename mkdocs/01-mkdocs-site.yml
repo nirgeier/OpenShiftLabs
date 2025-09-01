@@ -1,0 +1,12 @@
+###
+### mkdocs-site.yml
+###
+docs_dir: Labs
+edit_uri: ""
+repo_name: nirgeier/OpenShiftLabs
+repo_url: https://github.com/nirgeier/OpenShiftLabs
+site_author: Nir Geier - nirgeier@gmail.com
+site_description: A collection of OpenShift Labs for learning and practicing OpenShift skills.
+site_dir: ./mkdocs-site
+site_name: OpenShiftLabs
+site_url: https://nirgeier.github.io/OpenShiftLabs/

@@ -1,0 +1,20 @@
+###
+### mkdocs-nav.yml
+###
+
+nav:
+  - Welcome: README.md
+  - Labs:
+      - 000 Setup: 000-setup/README.md
+      - 001 Verify Cluster: 001-verify-cluster/README.md
+      - 002 New User: 002-new-user-gui/README.md
+      - 003 New Project: 003-new-project/README.md
+      - 004 Docker Lifecycle: 004-docker-lifecycle/README.md
+      - 005 Docker Pipeline: 005-docker-pipeline/README.md
+      - 006 Hooks Setup: 006-hooks-setup/README.md
+      - 007 Images ImageStream: 007-images-imagestream/README.md
+      - 008 Deploying: 008-deploying/README.md
+      - 009 Services Routes: 009-services-routes/README.md
+      - 010 Monitoring: 010-monitoring/README.md
+      - 011 Logging: 011-logging/README.md
+      - 012 Scaling: 012-scaling/README.md

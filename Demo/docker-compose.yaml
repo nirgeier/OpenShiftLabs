@@ -1,0 +1,18 @@
+services:
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        name: frontend-aaa
+    command: ["sh", "-c", "sleep infinity"]
+    environment:
+      - backend_URL=backend
+  backend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        name: frontend-bbb
+    command: ["sh", "-c", "sleep infinity"]
