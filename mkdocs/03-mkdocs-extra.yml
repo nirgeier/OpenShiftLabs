@@ -48,6 +48,6 @@ extra:
       class: social-class__email
 
 extra_css:
-  - ./assets/stylesheets/codewizard.css?v=1768731312
+  - ./assets/stylesheets/codewizard.css?v=1781082175
 extra_javascript:
-  - https://buttons.github.io/buttons.js?v=1768731312
+  - https://buttons.github.io/buttons.js?v=1781082175

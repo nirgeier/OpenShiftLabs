@@ -60,9 +60,29 @@ theme:
 ###
 
 nav:
-  - Documentation Site Template: ./README.md
-  - Welcome: welcome.md
-  - Getting Started: index.md
+  - Welcome: README.md
+  - 000 Setup: 000-setup/README.md
+  - 001 Verify Cluster: 001-verify-cluster/README.md
+  - 002 New User: 002-new-user/README.md
+  - 003 New Project: 003-new-project/README.md
+  - 004 Docker Lifecycle: 004-docker-lifecycle/README.md
+  - 005 Docker Pipeline: 005-docker-pipeline/README.md
+  - 006 Hooks Setup: 006-hooks-setup/README.md
+  - 007 Images ImageStream: 007-images-imagestream/README.md
+  - 008 Deploying: 008-deploying/README.md
+  - 009 Services Routes: 009-services-routes/README.md
+  - 010 Monitoring: 010-monitoring/README.md
+  - 011 Logging: 011-logging/README.md
+  - 012 Scaling: 012-scaling/README.md
+  - 013 ConfigMaps & Secrets: 013-configmaps-secrets/README.md
+  - 014 Persistent Storage: 014-persistent-storage/README.md
+  - 015 Networking: 015-networking/README.md
+  - 016 Security: 016-security/README.md
+  - 017 Helm Charts: 017-helm/README.md
+  - 018 Operators: 018-operators/README.md
+  - 019 Pipelines: 019-pipelines/README.md
+  - 020 Troubleshooting: 020-troubleshooting/README.md
+  - 021 MicroShift: 021-microshift/README.md
 ###
 ### mkdocs-site.yml
 ###
@@ -125,9 +145,9 @@ extra:
       class: social-class__email
 
 extra_css:
-  - ./assets/stylesheets/codewizard.css?v=1768731312
+  - ./assets/stylesheets/codewizard.css?v=1781082175
 extra_javascript:
-  - https://buttons.github.io/buttons.js?v=1768731312
+  - https://buttons.github.io/buttons.js?v=1781082175
 ###
 ### mkdocs-extensions.yml
 ###

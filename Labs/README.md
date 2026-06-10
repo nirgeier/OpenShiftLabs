@@ -22,7 +22,12 @@ Throughout these tutorials, you'll gain practical experience with:
 - **Application Deployment**: Container lifecycle, build strategies, and deployment patterns
 - **CI/CD Integration**: Automated pipelines, webhooks, and continuous delivery workflows
 - **Networking & Exposure**: Services, routes, ingress controllers, and load balancing
+- **Storage & Configuration**: ConfigMaps, Secrets, Persistent Volumes
+- **Security**: Security Context Constraints (SCC), Service Accounts, RBAC
 - **Operations & Observability**: Monitoring, logging, alerting, and autoscaling
+- **Additional Tools**: Helm Charts, Operators, OpenShift Pipelines (Tekton)
+- **Troubleshooting**: Diagnosing and fixing common Pod failures
+- **Edge Computing**: MicroShift for resource-constrained environments
 
 ## Hands-On Labs
 
@@ -38,9 +43,18 @@ Throughout these tutorials, you'll gain practical experience with:
 | [007-Images-ImageStream](007-images-imagestream/README.md) | **Image Management** | Working with BuildConfigs, ImageStreams, and registry interactions |
 | [008-Deploying](008-deploying/README.md) | **Deployment Strategies** | Understanding Deployments vs DeploymentConfigs, scaling and rollouts |
 | [009-Services-Routes](009-services-routes/README.md) | **Network Exposure** | Exposing applications using Services, Routes, and Ingress controllers |
-| [010-Monitoring](010-monitoring/README.md) | **Observability** | Implementing monitoring and alerting with Prometheus and Grafana |
-| [011-Logging](011-logging/README.md) | **Log Aggregation** | Centralized logging with EFK/ELK stack for troubleshooting and analysis |
-| [012-Scaling](012-scaling/README.md) | **Performance Tuning** | Horizontal Pod Autoscaling (HPA) and manual scaling strategies |
+| [010-Monitoring](010-monitoring/README.md) | **Observability** | Logs, events, resource limits, health probes, and Prometheus monitoring |
+| [011-Logging](011-logging/README.md) | **Log Aggregation** | Centralized logging with EFK stack, log forwarding and analysis |
+| [012-Scaling](012-scaling/README.md) | **Scaling** | Manual scaling and Horizontal Pod Autoscaler (HPA) |
+| [013-ConfigMaps-Secrets](013-configmaps-secrets/README.md) | **Configuration** | ConfigMaps & Secrets — environment variables and volume mounts |
+| [014-Persistent-Storage](014-persistent-storage/README.md) | **Storage** | Persistent Volumes (PV) and Persistent Volume Claims (PVC) |
+| [015-Networking](015-networking/README.md) | **Advanced Networking** | Service types (ClusterIP/NodePort/LoadBalancer), TLS, Network Policies |
+| [016-Security](016-security/README.md) | **Security** | Security Context Constraints (SCC), Service Accounts, advanced RBAC |
+| [017-Helm](017-helm/README.md) | **Helm Charts** | Packaging and deploying applications with Helm |
+| [018-Operators](018-operators/README.md) | **Operators** | The Operator pattern, OperatorHub, and OLM |
+| [019-Pipelines](019-pipelines/README.md) | **CI/CD Pipelines** | OpenShift Pipelines with Tekton — Tasks, Pipelines, Triggers |
+| [020-Troubleshooting](020-troubleshooting/README.md) | **Troubleshooting** | Diagnosing Pod failures — CrashLoopBackOff, ImagePull, OOMKilled, etc. |
+| [021-MicroShift](021-microshift/README.md) | **MicroShift** | Lightweight OpenShift for edge — management, logging, comparison |
 
 ## Prerequisites
 

@@ -17,3 +17,12 @@ nav:
   - 010 Monitoring: 010-monitoring/README.md
   - 011 Logging: 011-logging/README.md
   - 012 Scaling: 012-scaling/README.md
+  - 013 ConfigMaps & Secrets: 013-configmaps-secrets/README.md
+  - 014 Persistent Storage: 014-persistent-storage/README.md
+  - 015 Networking: 015-networking/README.md
+  - 016 Security: 016-security/README.md
+  - 017 Helm Charts: 017-helm/README.md
+  - 018 Operators: 018-operators/README.md
+  - 019 Pipelines: 019-pipelines/README.md
+  - 020 Troubleshooting: 020-troubleshooting/README.md
+  - 021 MicroShift: 021-microshift/README.md
