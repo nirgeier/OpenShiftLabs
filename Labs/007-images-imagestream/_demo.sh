@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 007-Images & ImageStream — CI-friendly demo script (placeholder)
+# 007-Images & ImageStream - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

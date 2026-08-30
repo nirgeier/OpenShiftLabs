@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 010-Monitoring — CI-friendly demo script (placeholder)
+# 010-Monitoring - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

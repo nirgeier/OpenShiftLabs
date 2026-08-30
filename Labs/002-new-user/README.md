@@ -546,9 +546,13 @@ Let's explore the RBAC we configured in previous steps.
    - **CR** badge = ClusterRole (cluster-wide role definition)
    - **R** badge = Role (namespace-specific role definition)
 
-  ![alt text](RoleBindings.png)
+  ![RoleBindings page in OpenShift web console](RoleBindings.png)
+
+  ![User management section in OpenShift web console](images/user-management.png)
 
 4. At the top left, click the **Project: All Projects** dropdown and select **team-project**
+
+   ![OpenShift web console overview](images/console-users.png)
 
    The table filters to show only RoleBindings in the `team-project` namespace. You should see:
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 009-Services & Routes — CI-friendly demo script (placeholder)
+# 009-Services & Routes - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

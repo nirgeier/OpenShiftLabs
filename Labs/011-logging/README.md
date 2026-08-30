@@ -1,4 +1,4 @@
-# 011-Logging — Centralized logging with EFK/ELK stack
+# 011-Logging - Centralized logging with EFK/ELK stack
 
 This module covers centralized logging for OpenShift deployments using the EFK (Elasticsearch, Fluentd, Kibana) or ELK stack.
 
@@ -13,5 +13,7 @@ This module covers centralized logging for OpenShift deployments using the EFK (
 1. Install or verify the logging operator and logging stack components (Elasticsearch, Fluentd/Fluentbit, Kibana).
 2. Deploy a sample application and verify its logs appear in Kibana.
 3. Create custom log queries and dashboards in Kibana for troubleshooting.
+
+![OpenShift logging dashboard with Kibana](images/logging-dashboard.png)
 
 Estimated time: 60–90 minutes

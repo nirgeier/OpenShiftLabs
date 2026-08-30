@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 002-New User — CI-friendly demo script (placeholder)
+# 002-New User - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

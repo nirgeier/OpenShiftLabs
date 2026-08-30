@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 008-Deploying — CI-friendly demo script (placeholder)
+# 008-Deploying - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

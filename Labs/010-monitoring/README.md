@@ -1,4 +1,4 @@
-# 010-Monitoring — Prometheus, Grafana, alerts; instrumenting applications
+# 010-Monitoring - Prometheus, Grafana, alerts; instrumenting applications
 
 This module covers observability for OpenShift deployments, including metrics collection, dashboards, and alerting.
 
@@ -13,6 +13,8 @@ This module covers observability for OpenShift deployments, including metrics co
 1. Install or enable Prometheus and Grafana on the cluster (if not already present).
 2. Create a Grafana dashboard for a sample app and configure Prometheus queries.
 3. Add a basic alert rule and validate alert behavior (email/Slack/webhook).
+
+![OpenShift monitoring dashboard showing metrics](images/monitoring-dashboard.png)
 
 Estimated time: 60–90 minutes
 

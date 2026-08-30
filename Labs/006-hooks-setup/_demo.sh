@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 006-Hooks Setup — CI-friendly demo script (placeholder)
+# 006-Hooks Setup - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

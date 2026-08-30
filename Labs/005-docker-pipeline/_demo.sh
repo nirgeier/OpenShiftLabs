@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 005-Docker Pipeline — CI-friendly demo script (placeholder)
+# 005-Docker Pipeline - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

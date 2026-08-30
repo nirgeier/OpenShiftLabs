@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 001-Verify-Cluster — CI-friendly demo script
+# 001-Verify-Cluster - CI-friendly demo script
 set -euo pipefail
 IFS=$'\n\t'
 

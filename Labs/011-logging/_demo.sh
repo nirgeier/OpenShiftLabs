@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 011-Logging — CI-friendly demo script (placeholder)
+# 011-Logging - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 

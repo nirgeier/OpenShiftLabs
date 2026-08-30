@@ -57,6 +57,8 @@ Think of it like this:
 3. Select your project: `lab-003-demo` (or the project you created earlier)
 4. Click **Topology** in the left navigation
 
+![Topology view in OpenShift Developer perspective](images/topology-view.png)
+
 ---
 
 ### Step 2: Deploy a Container Image
@@ -83,6 +85,8 @@ We'll deploy a sample web application image (like running `docker run -p 8080:80
    - **Resource limits**: Can set CPU/memory 
 
 6. Click **Create**
+
+![Deployment topology view showing running application](images/deployment-topology.png)
 
 **What just happened:**
 ```
@@ -125,6 +129,8 @@ You'll be redirected to the **Topology** view.
    - Opens your application in a new browser tab
 
 3. You should see the Simple Web App home page rendered.
+
+![Pod details in OpenShift web console](images/pod-details.png)
 
 ---
 

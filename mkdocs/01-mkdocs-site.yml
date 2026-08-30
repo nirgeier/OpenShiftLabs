@@ -2,7 +2,7 @@
 ### mkdocs-site.yml
 ###
 docs_dir: Labs
-edit_uri: ""
+edit_uri:
 repo_name: nirgeier/OpenShiftLabs
 repo_url: https://github.com/nirgeier/OpenShiftLabs
 site_author: Nir Geier - nirgeier@gmail.com

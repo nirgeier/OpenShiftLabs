@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 012-Scaling — CI-friendly demo script (placeholder)
+# 012-Scaling - CI-friendly demo script (placeholder)
 set -euo pipefail
 IFS=$'\n\t'
 
