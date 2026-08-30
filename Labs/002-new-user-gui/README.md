@@ -96,7 +96,13 @@ You will automatically be switched to this new project.
    - **Subject**: `User/developer` (You)
 3. Click on the `admin` RoleBinding name to view details.
 
-   - This confirms you have the `admin` role *specifically* for the `rbac-demo` namespace.
+    - This confirms you have the `admin` role *specifically* for the `rbac-demo` namespace.
+
+   ![RoleBindings page in OpenShift web console](RoleBindings.png)
+
+   ![User management section in OpenShift web console](images/user-management.png)
+
+   ![OpenShift web console overview](images/console-users.png)
 
 ---
 

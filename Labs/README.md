@@ -28,12 +28,12 @@ Throughout these tutorials, you'll gain practical experience with:
 
 | Lab | Topic | Description |
 |-----|-------|-------------|
-| [000-Setup](000-setup/README.md) | **Getting Started** | Initial OpenShift cluster setup and accessing the web console |
+| [000-SetupToken](000-SetupToken/README.md) | **Getting Started** | Initial OpenShift cluster setup, accessing the web console, and obtaining/using your login token |
 | [001-Verify-Cluster](001-verify-cluster/README.md) | **Health & Status** | Verify cluster health, check nodes, operators, and resource availability |
 | [002-New-User](002-new-user/README.md) | **Identity Management** | Creating and managing users, roles, and RBAC configurations |
-| [003-New-Project](003-new-project/README.md) | **Resource Isolation** | Creating namespaces/projects with resource quotas and limits |
-| [004-Docker-Lifecycle](004-docker-lifecycle/README.md) | **Container Basics** | Building, tagging, pushing, and managing local Docker images |
-| [005-Docker-Pipeline](005-docker-pipeline/README.md) | **CI/CD Foundations** | Building automated pipelines from source code to container images |
+| [003-New-Project](003-new-project/README.md) | **Project Management** | Creating and managing OpenShift projects, navigating the web console |
+| [004-Docker-Lifecycle](004-docker-lifecycle/README.md) | **First Deployment** | Deploying pre-built container images, creating Services and Routes |
+| [005-Docker-Pipeline](005-docker-pipeline/README.md) | **S2I Builds** | Building container images from source code using Source-to-Image (S2I) |
 | [006-Hooks-Setup](006-hooks-setup/README.md) | **Automation Triggers** | Configuring Git hooks, build hooks, and webhooks for CI triggers |
 | [007-Images-ImageStream](007-images-imagestream/README.md) | **Image Management** | Working with BuildConfigs, ImageStreams, and registry interactions |
 | [008-Deploying](008-deploying/README.md) | **Deployment Strategies** | Understanding Deployments vs DeploymentConfigs, scaling and rollouts |
@@ -63,5 +63,5 @@ We recommend following the labs sequentially, as concepts and configurations bui
 
 ---
 
-**Ready to begin?** Start with [Lab 000: Setup](000-setup/README.md) to configure your OpenShift environment.
+**Ready to begin?** Start with [Lab 000: Setup & Token](000-SetupToken/README.md) to configure your OpenShift environment.
 

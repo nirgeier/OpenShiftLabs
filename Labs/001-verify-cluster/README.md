@@ -6,7 +6,7 @@ This lab covers detailed cluster health verification including node status, clus
 
 ## Prerequisites
 
-- Completed [Lab 000: Installation and Initial Setup](../000-setup/README.md)
+- Completed [Lab 000: Installation, Initial Setup & Getting Your Token](../000-SetupToken/README.md)
 - OpenShift Local (CRC) running
 - `oc` CLI tool installed and configured
 - Logged in as `developer` or `kubeadmin`
@@ -175,7 +175,9 @@ All pods should be in `Running` status.
    - Node conditions
    - Events
 
-   ![alt text](node-details.png)
+   ![Node details page in OpenShift web console](node-details.png)
+
+   ![OpenShift web console overview dashboard](images/console-overview.png)
 
 ---
 

@@ -1,0 +1,8 @@
+mkdocs-material
+mkdocs-awesome-pages-plugin
+mkdocs-git-committers-plugin-2
+mkdocs-git-revision-date-localized-plugin
+mkdocs-minify-plugin
+mkdocs-print-site-plugin
+mkdocs-include-markdown-plugin
+pymdown-extensions

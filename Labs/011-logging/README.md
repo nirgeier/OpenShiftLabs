@@ -14,4 +14,6 @@ This module covers centralized logging for OpenShift deployments using the EFK (
 2. Deploy a sample application and verify its logs appear in Kibana.
 3. Create custom log queries and dashboards in Kibana for troubleshooting.
 
+![OpenShift logging dashboard with Kibana](images/logging-dashboard.png)
+
 Estimated time: 60–90 minutes

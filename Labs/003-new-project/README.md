@@ -32,7 +32,7 @@ By completing this lab, you will:
 **OpenShift Projects add:**
 - User-friendly management through the console
 - Automatic RBAC policy creation
-- Network isolation by default (NetworkPolicies)
+- NetworkPolicy support (no default isolation — pods can reach each other until a policy is created)
 - Resource quotas and limits (can be applied)
 - Project-level annotations and metadata
 
@@ -64,6 +64,8 @@ OpenShift console has two perspectives:
 
 This view is optimized for deploying and managing applications within your projects.
 
+![Developer perspective in OpenShift web console](images/console-perspectives.png)
+
 ---
 
 ### Step 3: Review Existing Projects (from Labs 000 and 002)
@@ -91,6 +93,12 @@ Lab 004 will deploy an application into a project. If you don’t already have a
 4. Click **Create**
 
 You’ll use `lab-003-demo` in Lab 004.
+
+![Creating a new project in OpenShift web console](images/projects-list.png)
+
+![Import from container image form](images/import-container.png)
+
+![BuildConfig configuration form](images/buildconfig-edit.png)
 
 ### Step 4: Verify Project Resources
 

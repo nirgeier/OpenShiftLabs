@@ -46,6 +46,12 @@ In Developer perspective:
 
 Observe rollout in Topology and open the Route URL.
 
+![Deployments list in OpenShift web console](images/deployments-list.jpg)
+
+![BuildConfig edit page in OpenShift web console](images/buildconfig-edit.png)
+
+![Topology with side panel showing deployment details](images/topology-sidepanel.png)
+
 ### Step 2: Add Health Probes
 
 - In Topology, open `simple-web-app` → **Actions** → **Add Health Checks**
@@ -78,7 +84,7 @@ Validate probe behavior in Pod details.
 
 ## Clean Up (Optional)
 
-- Delete `simple-web-app` and `simple-web-app-dc`
+- Delete `simple-web-app`
 - Remove associated Service and Route
 - Optionally reset probe settings or scale back replicas to 1
 

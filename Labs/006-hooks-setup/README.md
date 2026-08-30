@@ -22,8 +22,8 @@ By completing this lab, you will:
 ## Background: Webhooks in CI/CD
 
 **Traditional workflow (manual):**
-1. Developer pushes code to Git
-2. Someone manually triggers build
+1. Developer writes code locally
+2. Someone manually triggers build in OpenShift console
 3. Wait for build to complete
 4. Manually deploy if needed
 
@@ -31,7 +31,8 @@ By completing this lab, you will:
 1. Developer pushes code to Git
 2. Git server sends webhook to OpenShift
 3. OpenShift automatically starts new build
-4. On success, automatically redeploys application
+4. Build outputs updated image to ImageStream
+5. Deployment ImageStream trigger detects change and rolls out new version
 
 ---
 
@@ -52,6 +53,10 @@ This lab is conceptual and requires no actions. The summary below explains how w
 2. The Git platform sends an HTTP POST (the webhook) to your BuildConfig’s webhook URL.
 3. OpenShift checks the secret embedded in the URL to verify the request.
 4. A Build starts; if it completes, your app is redeployed with the new image.
+
+![BuildConfig webhook configuration in OpenShift](images/build-config-webhooks.png)
+
+![BuildConfig edit page showing webhook settings](images/buildconfig-edit.png)
 
 ## Quick Setup (Optional)
 - In OpenShift: BuildConfig → Webhooks → copy the GitHub webhook URL with secret.

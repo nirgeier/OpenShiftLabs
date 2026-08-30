@@ -69,6 +69,9 @@ We'll deploy a sample Node.js application from GitHub.
 2. Select **Import from Git** tile
 
 3. **Git Repo URL**: Enter the following:
+
+![Import from Git in OpenShift web console](images/git-import.png)
+
    ```
    https://github.com/nodeshift-starters/devfile-sample.git
    ```
@@ -77,7 +80,12 @@ We'll deploy a sample Node.js application from GitHub.
 4. OpenShift analyzes the repository:
    - **Detects**: Node.js application
    - **Builder Image**: nodejs (automatically selected)
+
+![Builder image selection for S2I build](images/builder-selection.png)
+
    - **Builder Image Version**: latest available
+
+![Deploy settings for S2I application](images/deploy-settings.png)
 
 5. Review the detected settings:
    - **Application**: Create new "devfile-sample-app"
@@ -89,8 +97,9 @@ We'll deploy a sample Node.js application from GitHub.
    - **Build Strategy**: Source-to-Image (S2I)
    - **Builder Image**: nodejs (version as detected)
    - Shows detected start command
-
 7. Click **Create**
+
+![S2I build in Topology view](images/s2i-topology.png)
 
 
 ---
@@ -119,7 +128,12 @@ We'll deploy a sample Node.js application from GitHub.
    Pushing image to registry...
    Build complete!
    ```
+
+![Build details page showing build status](images/build-details.png)
+
    - Similar to watching `docker build` output
+
+![Build logs showing S2I build process](images/build-logs.png)
 
 ---
 

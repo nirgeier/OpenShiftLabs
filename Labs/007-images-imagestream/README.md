@@ -48,16 +48,18 @@ In the web console (Developer → Add → Import from Git), create an app from:
 ```
 https://github.com/nodeshift-starters/devfile-sample.git
 ```
-- Ensure a BuildConfig is created and outputs to an ImageStream named `devfile-sample`.
-- Confirm a Deployment references that ImageStream.
+OpenShift automatically creates a BuildConfig, an ImageStream, and a Deployment. The ImageStream is named after the application and stores each build's output by tag (e.g., `latest`).
 
 Web console steps:
 1. Switch to Developer perspective and select your project (e.g., `lab-003-demo`).
 2. Click **+Add** → **Import from Git**.
-3. Enter the Git URL above and wait for detection.
-4. Resource type: **Deployment**; check **Create a route** (optional).
-5. Under **Build configuration**, verify output points to an ImageStream (name `devfile-sample`).
-6. Click **Create** and observe the Build and Deployment in **Topology**.
+3. Enter the Git URL above and wait for OpenShift to detect the language.
+4. Set **Name** to `devfile-sample` and **Resource type** to **Deployment**.
+5. Check **Create a route** if you want external access (optional).
+6. Under **Advanced Options → Build configuration**, the output will point to ImageStream `devfile-sample:latest` (this is automatic for S2I builds).
+7. Click **Create** and observe the Build and Deployment in **Topology**.
+
+![Import from Git showing BuildConfig output to ImageStream](images/import-image.png)
 
 ### Step 2: Inspect ImageStreams
 
@@ -69,7 +71,12 @@ In Administrator perspective:
 Web console steps:
 1. Switch to Administrator perspective.
 2. Navigate to **Builds** → **ImageStreams**.
+
+![ImageStream details in OpenShift web console](images/imagestream-details.png)
+
 3. Click `devfile-sample` to view details and tags.
+
+![BuildConfig edit page showing output to ImageStream](images/buildconfig-edit.png)
 
 ### Step 3: Promote via Tagging
 

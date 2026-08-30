@@ -3,18 +3,27 @@
 ###
 
 nav:
-  - Welcome: README.md
-  - Labs:
-      - 000 Setup: 000-setup/README.md
-      - 001 Verify Cluster: 001-verify-cluster/README.md
-      - 002 New User: 002-new-user-gui/README.md
-      - 003 New Project: 003-new-project/README.md
-      - 004 Docker Lifecycle: 004-docker-lifecycle/README.md
-      - 005 Docker Pipeline: 005-docker-pipeline/README.md
-      - 006 Hooks Setup: 006-hooks-setup/README.md
-      - 007 Images ImageStream: 007-images-imagestream/README.md
-      - 008 Deploying: 008-deploying/README.md
-      - 009 Services Routes: 009-services-routes/README.md
-      - 010 Monitoring: 010-monitoring/README.md
-      - 011 Logging: 011-logging/README.md
-      - 012 Scaling: 012-scaling/README.md
+- Start Here: welcome.md
+- Labs:
+  - index.md
+  - 000 Setup & Token: 000-SetupToken/README.md
+  - 001 Verify Cluster: 001-verify-cluster/README.md
+  - 002 New User: 002-new-user/README.md
+  - 003 New Project: 003-new-project/README.md
+  - 004 Docker Lifecycle: 004-docker-lifecycle/README.md
+  - 005 Docker Pipeline: 005-docker-pipeline/README.md
+  - 006 Build Hooks: 006-hooks-setup/README.md
+  - 007 ImageStreams: 007-images-imagestream/README.md
+  - 008 Deployments: 008-deploying/README.md
+  - 009 Services & Routes: 009-services-routes/README.md
+  - 010 Monitoring: 010-monitoring/README.md
+  - 011 Logging: 011-logging/README.md
+  - 012 Scaling: 012-scaling/README.md
+  - 013 ConfigMaps & Secrets: 013-configmaps-secrets/README.md
+  - 014 Persistent Storage: 014-persistent-storage/README.md
+  - 015 RBAC: 015-rbac/README.md
+  - 016 Templates: 016-templates/README.md
+  - 017 CI/CD Pipelines: 017-cicd-pipelines/README.md
+  - 018 Network Policies: 018-network-policies/README.md
+  - 019 Quotas & Limits: 019-quotas-limits/README.md
+  - 020 Health Probes: 020-health-probes/README.md

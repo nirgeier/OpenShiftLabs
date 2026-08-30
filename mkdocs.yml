@@ -1,50 +1,59 @@
 ###
+### mkdocs-site.yml
+###
+docs_dir: Labs
+edit_uri:
+repo_name: nirgeier/OpenShiftLabs
+repo_url: https://github.com/nirgeier/OpenShiftLabs
+site_author: Nir Geier - nirgeier@gmail.com
+site_description: A collection of OpenShift Labs for learning and practicing OpenShift skills.
+site_dir: ./mkdocs-site
+site_name: OpenShiftLabs
+site_url: https://nirgeier.github.io/OpenShiftLabs/
+###
 ### mkdocs-theme.yml
 ###
-copyright:
-  '©2021-2026 Nir Geier<br/><a href="https://visitor-badge.laobi.icu/badge?page_id=nirgeier" target="_blank" rel="noopener"><img
-  src="https://visitor-badge.laobi.icu/badge?page_id=nirgeier" alt="Visitor Badge"></a>'
+copyright: '©2026 Nir Geier<br/><a href="https://visitor-badge.laobi.icu/badge?page_id=nirgeier" target="_blank" rel="noopener"><img src="https://visitor-badge.laobi.icu/badge?page_id=nirgeier" alt="Visitor Badge"></a>'
 theme:
   name: material
-  custom_dir: mkdocs/overrides
+  custom_dir: .mkdocs-build/overrides
   features:
-    - announce.dismiss
-    - content.action.edit
-    - content.action.view
-    - content.code.annotate
-    - content.code.copy
-    - content.code.select
-    - content.footnote.tooltips
-    - content.tabs.link
-    - content.tooltips
-    - content.footer.last-updated
-    - content.footer.contributors
-    - navigation.expand: false
-    - navigation.footer
-    - navigation.indexes
-    - navigation.instant
-    - navigation.instant.prefetch
-    - navigation.instant.progress
-    - navigation.prune
-    - navigation.sections
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.top: true
-    - navigation.tracking
-    - search.highlight
-    - search.share
-    - search.suggest
-    - toc.follow
-    - toc.integrate
-    - toc.sticky
-
-    #- header.autohide  # Disabled to keep top nav always visible
+  - announce.dismiss
+  - content.action.edit
+  - content.action.view
+  - content.code.annotate
+  - content.code.copy
+  - content.code.select
+  - content.footnote.tooltips
+  - content.tabs.link
+  - content.tooltips
+  - content.footer.last-updated
+  - content.footer.contributors
+  - navigation.expand
+  - navigation.footer
+  - navigation.indexes
+  - navigation.instant
+  - navigation.instant.prefetch
+  - navigation.instant.progress
+  #- navigation.prune        # Disabled - hides sections when tabs are off
+  - navigation.sections
+  #- navigation.tabs          # Disabled - left nav only
+  #- navigation.tabs.sticky   # Disabled - left nav only
+  #- navigation.top
+  - navigation.tracking
+  - search.highlight
+  - search.share
+  - search.suggest
+  - toc.follow
+  - toc.integrate # Disabled - replaces full nav with per-page TOC in sidebar
+  - toc.sticky
+  #- header.autohide  # Disabled to keep top nav always visible
 
   # 👈 enables avatar display
   palette:
-    # Dark mode only
-    - scheme: slate
-      primary: indigo # You can choose any color here
+  # Dark mode only
+  - scheme: slate
+    primary: indigo # You can choose any color here
 
   font:
     text: Mulish
@@ -56,164 +65,161 @@ theme:
     admonition:
       note: material/lightbulb
 ###
-### mkdocs-nav.yml
-###
-
-nav:
-  - Welcome: README.md
-  - Labs:
-      - 000 Setup: 000-setup/README.md
-      - 001 Verify Cluster: 001-verify-cluster/README.md
-      - 002 New User: 002-new-user-gui/README.md
-      - 003 New Project: 003-new-project/README.md
-      - 004 Docker Lifecycle: 004-docker-lifecycle/README.md
-      - 005 Docker Pipeline: 005-docker-pipeline/README.md
-      - 006 Hooks Setup: 006-hooks-setup/README.md
-      - 007 Images ImageStream: 007-images-imagestream/README.md
-      - 008 Deploying: 008-deploying/README.md
-      - 009 Services Routes: 009-services-routes/README.md
-      - 010 Monitoring: 010-monitoring/README.md
-      - 011 Logging: 011-logging/README.md
-      - 012 Scaling: 012-scaling/README.md
-###
-### mkdocs-site.yml
-###
-docs_dir: Labs
-edit_uri: ""
-repo_name: nirgeier/OpenShiftLabs
-repo_url: https://github.com/nirgeier/OpenShiftLabs
-site_author: Nir Geier - nirgeier@gmail.com
-site_description: A collection of OpenShift Labs for learning and practicing OpenShift skills.
-site_dir: ./mkdocs-site
-site_name: OpenShiftLabs
-site_url: https://nirgeier.github.io/OpenShiftLabs/
-###
 ### mkdocs-extra.yml
 ###
 
 extra:
   assets:
-    - ./assets/images/
+  - ./assets/images/
   generator: false
   social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/nirgeier/OpenShiftLabs
-      name: View on GitHub
-      class: social-class__github
+  - icon: fontawesome/brands/github
+    link: https://github.com/nirgeier/OpenShiftLabs
+    name: View on GitHub
+    class: social-class__github
 
-    - icon: octicons/repo-forked-16
-      link: https://github.com/nirgeier/OpenShiftLabs/network/members
-      name: Fork this repo
-      class: social-class__fork
+  - icon: octicons/repo-forked-16
+    link: https://github.com/nirgeier/OpenShiftLabs/network/members
+    name: Fork this repo
+    class: social-class__fork
 
-    - icon: octicons/star-16
-      link: https://github.com/nirgeier/OpenShiftLabs/stargazers
-      name: Star this repo
-      class: social-class__star
+  - icon: octicons/star-16
+    link: https://github.com/nirgeier/OpenShiftLabs/stargazers
+    name: Star this repo
+    class: social-class__star
 
-    - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/nirgeier/
-      name: Connect on LinkedIn
-      class: social-class__linkedin
+  - icon: fontawesome/brands/linkedin
+    link: https://www.linkedin.com/in/nirgeier/
+    name: Connect on LinkedIn
+    class: social-class__linkedin
 
-    - icon: fontawesome/brands/discord
-      link: https://discord.gg/U6xW23Ss
-      name: Follow me on Discord
-      class: social-class__discord
+  - icon: fontawesome/brands/discord
+    link: https://discord.gg/U6xW23Ss
+    name: Follow me on Discord
+    class: social-class__discord
 
-    - icon: fontawesome/brands/stack-overflow
-      link: https://stackoverflow.com/users/1755598/codewizard
-      name: Follow me on Stack Overflow
-      class: social-class__stackoverflow
+  - icon: fontawesome/brands/stack-overflow
+    link: https://stackoverflow.com/users/1755598/codewizard
+    name: Follow me on Stack Overflow
+    class: social-class__stackoverflow
 
-    - icon: fontawesome/brands/whatsapp
-      link: https://wa.me/972548122310
-      name: Follow me on WhatsApp
-      class: social-class__whatsapp
+  - icon: fontawesome/brands/whatsapp
+    link: https://wa.me/972548122310
+    name: Follow me on WhatsApp
+    class: social-class__whatsapp
 
-    - icon: fontawesome/solid/envelope
-      link: mailto:nirg@codewizard.co.il
-      name: Email me
-      class: social-class__email
+  - icon: fontawesome/solid/envelope
+    link: mailto:nirg@codewizard.co.il
+    name: Email me
+    class: social-class__email
 
 extra_css:
-  - ./assets/stylesheets/codewizard.css?v=1774093513
+- ./assets/stylesheets/codewizard.css?v=1784750191
 extra_javascript:
-  - https://buttons.github.io/buttons.js?v=1774093513
-###
-### mkdocs-extensions.yml
-###
-
-markdown_extensions:
-  - toc:
-      permalink: true
-      baselevel: 1
-      toc_depth: 3
-  - abbr
-  - tables
-  - admonition # For callouts/notes
-  - footnotes # Footnotes support
-  - attr_list # Attribute lists for elements
-  - def_list # Definition lists
-  - md_in_html # Markdown inside HTML blocks
-  - smarty # Smart punctuation
-  - meta
-  - codehilite:
-      guess_lang: true # Fallback code highlighting
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.details # Collapsible details
-  - pymdownx.inlinehilite # Inline code highlighting
-  - pymdownx.keys # Keyboard key formatting
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.betterem:
-      smart_enable: all
-  - pymdownx.tilde # Subscript/superscript
-  - pymdownx.snippets # Snippet includes
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: "!!python/name:pymdownx.superfences.fence_code_format"
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+- https://buttons.github.io/buttons.js?v=1784750191
 ###
 ### mkdocs-plugins.yml
 ###
 
 plugins:
-    - awesome-pages
-    - meta
-    # - pdf-export:
-    #     combined: true # all pages in one PDF
-    #     combined_output_path: docs/Full-Documentation.pdf
-    #     media_type: print
-    #     verbose: true
-    # Git
-    #- git-authors
-    - git-committers:
-          branch: main
-          docs_path: Labs # set if your docs folder is not root
-          enabled: true
-          repository: nirgeier/OpenShiftLabs
-    - git-revision-date-localized:
-          enable_creation_date: true
-          enable_git_follow: false
-          fallback_to_build_date: true
-          locale: en
-          timezone: UTC
-          type: date
-    - search:
-          separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-    - minify:
-          minify_html: true
+- awesome-pages
+- meta
+# - pdf-export:
+#     combined: true # all pages in one PDF
+#     combined_output_path: docs/Full-Documentation.pdf
+#     media_type: print
+#     verbose: true
+# Git
+#- git-authors
+- git-committers:
+    branch: main
+    docs_path: Labs # set if your docs folder is not root
+    enabled: true
+    repository: nirgeier/OpenShiftLabs
+- git-revision-date-localized:
+    enable_creation_date: true
+    enable_git_follow: false
+    fallback_to_build_date: true
+    locale: en
+    timezone: UTC
+    type: date
+- search:
+    separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+- minify:
+    minify_html: true
 
-    # Leave this one as the last one in the list
-    - print-site
-    - include-markdown
+# Leave this one as the last one in the list
+- print-site
+- include-markdown
+###
+### mkdocs-extensions.yml
+###
+
+markdown_extensions:
+- toc:
+    permalink: false
+    baselevel: 3
+    toc_depth: 3
+- abbr
+- tables
+- admonition # For callouts/notes
+- footnotes # Footnotes support
+- attr_list # Attribute lists for elements
+- def_list # Definition lists
+- md_in_html # Markdown inside HTML blocks
+- smarty # Smart punctuation
+- meta
+- codehilite:
+    guess_lang: true # Fallback code highlighting
+- pymdownx.tabbed:
+    alternate_style: true
+- pymdownx.details # Collapsible details
+- pymdownx.inlinehilite # Inline code highlighting
+- pymdownx.keys # Keyboard key formatting
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.betterem:
+    smart_enable: all
+- pymdownx.tilde # Subscript/superscript
+- pymdownx.snippets # Snippet includes
+- pymdownx.highlight:
+    anchor_linenums: true
+    line_spans: __span
+    pygments_lang_class: true
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format ""
+- pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji ""
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg ""
+###
+### mkdocs-nav.yml
+###
+
+nav:
+- Start Here: welcome.md
+- Labs:
+  - index.md
+  - 000 Setup & Token: 000-SetupToken/README.md
+  - 001 Verify Cluster: 001-verify-cluster/README.md
+  - 002 New User: 002-new-user/README.md
+  - 003 New Project: 003-new-project/README.md
+  - 004 Docker Lifecycle: 004-docker-lifecycle/README.md
+  - 005 Docker Pipeline: 005-docker-pipeline/README.md
+  - 006 Build Hooks: 006-hooks-setup/README.md
+  - 007 ImageStreams: 007-images-imagestream/README.md
+  - 008 Deployments: 008-deploying/README.md
+  - 009 Services & Routes: 009-services-routes/README.md
+  - 010 Monitoring: 010-monitoring/README.md
+  - 011 Logging: 011-logging/README.md
+  - 012 Scaling: 012-scaling/README.md
+  - 013 ConfigMaps & Secrets: 013-configmaps-secrets/README.md
+  - 014 Persistent Storage: 014-persistent-storage/README.md
+  - 015 RBAC: 015-rbac/README.md
+  - 016 Templates: 016-templates/README.md
+  - 017 CI/CD Pipelines: 017-cicd-pipelines/README.md
+  - 018 Network Policies: 018-network-policies/README.md
+  - 019 Quotas & Limits: 019-quotas-limits/README.md
+  - 020 Health Probes: 020-health-probes/README.md

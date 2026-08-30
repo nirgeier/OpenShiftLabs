@@ -37,14 +37,16 @@ Pods run your application, but their IPs are dynamic. A Service provides a stabl
 
 In Developer perspective:
 - Open `simple-web-app` in Topology
-- Actions → Add Health Checks (optional) ensure port 8080 is exposed
-- If Service doesn’t exist, create one via Expose → Service (ClusterIP)
+- If no Service exists, select your deployment and use **Actions → Expose Service** (ClusterIP) to create one on port 8080
+- Verify the Service appears in the **Resources** tab of the side panel
 
 ### Step 2: Expose via Route
 
 - From Topology, click the external link icon to open the app
 - If no Route exists, use Expose → Route
+   ![Create route form in OpenShift web console](images/create-route.jpg)
 - Verify the public URL is reachable
+   ![Routes list in OpenShift web console](images/routes-list.jpg)
 
 ### Step 3: Configure TLS (Edge Termination)
 
@@ -52,6 +54,11 @@ In Developer perspective:
 - Edit → Set TLS termination to Edge
 - Provide certificate/key if needed (for custom hostname)
 - Save and validate HTTPS access
+   ![Route details showing location and status](images/route-details.png)
+
+   ![Route TLS configuration form](images/route-tls.png)
+
+   ![Routes list filtered by project](images/routes-filtered.png)
 
 ---
 
@@ -64,7 +71,8 @@ oc get deploy
 oc expose deploy/simple-web-app --port=8080 --name=simple-web-app
 oc expose svc/simple-web-app
 oc get route simple-web-app -o jsonpath='{.spec.host}{"\n"}'
-oc create route edge simple-web-app-edge --service=simple-web-app --hostname=app.example.com
+oc create route edge simple-web-app-edge --service=simple-web-app
+# On CRC the route will use the default domain: <route>-<namespace>.apps-crc.testing
 ```
 
 ---
