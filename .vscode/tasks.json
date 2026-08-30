@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echo",
+            "type": "shell",
+            "command": "echo Hello"
+        },
+        {
+            "label": "Install Minishift",
+            "detail": "Download, install and start a local OpenShift 3.x cluster via Minishift (Lab 000-Minishift).",
+            "type": "shell",
+            "command": "${workspaceFolder}/Labs/000-Minishift/install-minishift.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/Labs/000-Minishift"
+            },
+            "group": "none",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
