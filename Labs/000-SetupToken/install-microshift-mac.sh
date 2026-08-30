@@ -3,26 +3,37 @@
 ################################################################################
 # MicroShift Installation Script for macOS
 ################################################################################
-# This script automates running MicroShift on macOS using Lima (Linux VM)
-# with Fedora, providing a lightweight single-node OpenShift/Kubernetes
-# environment for local development and testing.
+# This script installs and runs a local single-node cluster on macOS using
+# Red Hat OpenShift Local (CRC), which bundles both OpenShift and MicroShift.
+#
+# On macOS the maintained way to run MicroShift is via CRC's 'microshift'
+# preset. (The community Lima + copr RPM path is abandoned: the newest copr
+# build is MicroShift 4.8.0 from 2022 with no matching CRI-O.) CRC runs
+# natively on Apple Silicon and Intel and manages the VM for you.
 #
 # Prerequisites:
 #   - macOS (Intel or Apple Silicon)
 #   - Homebrew (https://brew.sh)
-#   - At least 4 GB free RAM (8 GB+ recommended)
-#   - At least 20 GB free disk space
+#   - openshift preset: ~4 vCPUs / 10.5 GB RAM;  microshift preset: ~2 vCPU / 4 GB
+#   - ~35 GB free disk space
+#   - An OpenShift pull secret (pull-secret.txt at the repo root, or set
+#     PULL_SECRET_FILE). Download one from:
+#     https://console.redhat.com/openshift/install/pull-secret
+#
+# Presets (set via CRC_PRESET):
+#   microshift  MicroShift - headless, oc/kubectl only, NO web console  [default]
+#   openshift   full OpenShift - includes the web console GUI
 #
 # What it does:
-#   1. Installs Lima (via Homebrew) if not present
-#   2. Creates a Fedora VM with optimal resources for MicroShift
-#   3. Installs MicroShift inside the VM
-#   4. Installs oc/kubectl on your Mac and wires up kubeconfig
-#   5. Waits for the cluster to be ready and prints access info
+#   1. Installs CRC and the oc client (via Homebrew) if not present
+#   2. Configures CRC (preset, CPUs, memory, pull secret)
+#   3. Runs 'crc setup' and 'crc start'
+#   4. Prints access info (and the console URL for the openshift preset)
 #
 # Usage:
 #   chmod +x install-microshift-mac.sh
-#   ./install-microshift-mac.sh
+#   ./install-microshift-mac.sh                        # microshift preset
+#   CRC_PRESET=openshift ./install-microshift-mac.sh   # web console GUI
 #
 # Author: OpenShift Lab Setup
 # Date: July 2026
@@ -33,15 +44,17 @@ set -euo pipefail
 ################################################################################
 # Configuration
 ################################################################################
-VM_NAME="microshift"
-VM_CPUS=4
-VM_MEMORY_GB=4
-VM_DISK_GB=20
-
-FEDORA_VERSION="40"
-MICROSHIFT_PORT=6443
+# Which cluster flavor CRC should run: 'microshift' (headless) or 'openshift' (GUI).
+CRC_PRESET="${CRC_PRESET:-microshift}"
+CRC_CPUS="${CRC_CPUS:-4}"
+CRC_MEMORY_MB="${CRC_MEMORY_MB:-10240}"
+CRC_DISK_GB="${CRC_DISK_GB:-40}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# OpenShift pull secret used by CRC to pull the cluster's container images.
+# Defaults to the pull-secret.txt committed at the repo root.
+PULL_SECRET_FILE="${PULL_SECRET_FILE:-${SCRIPT_DIR}/../../pull-secret.txt}"
 
 ################################################################################
 # Colors & Helpers
@@ -100,257 +113,140 @@ check_prerequisites() {
     fi
     print_success "Homebrew is installed"
 
-    # Check / install Lima
-    if ! command -v limactl &> /dev/null; then
-        print_info "Installing Lima via Homebrew..."
-        brew install lima
+    # Check / install CRC (OpenShift Local)
+    if ! command -v crc &> /dev/null; then
+        print_info "Installing CRC (OpenShift Local) via Homebrew..."
+        brew install crc
     fi
-    print_success "Lima is installed"
-}
+    print_success "CRC is installed"
 
-################################################################################
-# Stop Existing VM (if any)
-################################################################################
-stop_existing_vm() {
-    if limactl list 2>/dev/null | grep -q "$VM_NAME"; then
-        local status
-        status=$(limactl list --format '{{.Status}}' "$VM_NAME" 2>/dev/null || echo "")
-        if [[ "$status" == "Running" ]]; then
-            print_info "Stopping existing '$VM_NAME' VM..."
-            limactl stop "$VM_NAME"
-        fi
-        print_info "Removing existing '$VM_NAME' VM..."
-        limactl delete -f "$VM_NAME" 2>/dev/null || true
+    # Check / install the oc client
+    if ! command -v oc &> /dev/null; then
+        print_info "Installing openshift-cli (oc) via Homebrew..."
+        brew install openshift-cli
     fi
-}
+    print_success "oc client is installed"
 
-################################################################################
-# Generate Lima Config
-################################################################################
-generate_lima_config() {
-    local config_file="$1"
-
-    print_info "Generating Lima config for Fedora ${FEDORA_VERSION}..."
-
-    cat > "$config_file" <<EOF
-# Lima configuration for MicroShift on Fedora ${FEDORA_VERSION}
-# Generated by install-microshift-mac.sh
-images:
-  - location: "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/${FEDORA_VERSION}/Cloud/x86_64/images/Fedora-Cloud-Base-Generic.x86_64-${FEDORA_VERSION}-1.14.qcow2"
-    arch: "x86_64"
-  - location: "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/${FEDORA_VERSION}/Cloud/aarch64/images/Fedora-Cloud-Base-Generic.aarch64-${FEDORA_VERSION}-1.14.qcow2"
-    arch: "aarch64"
-cpus: ${VM_CPUS}
-memory: "${VM_MEMORY_GB}GiB"
-disk: "${VM_DISK_GB}GiB"
-portForwards:
-  - guestIP: "0.0.0.0"
-    guestPort: ${MICROSHIFT_PORT}
-    hostIP: "127.0.0.1"
-    hostPort: ${MICROSHIFT_PORT}
-EOF
-
-    print_success "Lima config generated"
-}
-
-################################################################################
-# Start VM
-################################################################################
-start_vm() {
-    local config_file="$1"
-
-    print_header "Starting Fedora VM via Lima"
-
-    print_info "Launching Lima VM '$VM_NAME' (${VM_CPUS} CPUs, ${VM_MEMORY_GB} GB RAM, ${VM_DISK_GB} GB disk)..."
-    print_info "This may take a few minutes for the first-time download and boot."
-
-    limactl start --name "$VM_NAME" "$config_file"
-
-    print_success "VM '$VM_NAME' is running"
-
-    # Wait for VM to be fully ready
-    print_info "Waiting for VM to be ready..."
-    sleep 5
-
-    # Test connectivity
-    if limactl shell "$VM_NAME" -- uname -a > /dev/null 2>&1; then
-        print_success "VM is accessible"
-    else
-        print_error "VM is not responding. Please check Lima status."
+    # Check pull secret (required by CRC to pull cluster images)
+    if [[ ! -f "$PULL_SECRET_FILE" ]]; then
+        print_error "Pull secret not found at: $PULL_SECRET_FILE"
+        print_info "Download one from https://console.redhat.com/openshift/install/pull-secret"
+        print_info "then save it there or set PULL_SECRET_FILE=/path/to/pull-secret.txt"
         exit 1
     fi
+    if ! /usr/bin/python3 -c "import json,sys; json.load(open(sys.argv[1]))['auths']" "$PULL_SECRET_FILE" 2>/dev/null; then
+        print_error "Pull secret at $PULL_SECRET_FILE is not a valid JSON pull secret (missing 'auths')."
+        exit 1
+    fi
+    print_success "Pull secret found: $PULL_SECRET_FILE"
 }
 
 ################################################################################
-# Install MicroShift in VM
+# Configure CRC
 ################################################################################
-install_microshift() {
-    print_header "Installing MicroShift in Fedora VM"
+configure_crc() {
+    print_header "Configuring CRC (preset: ${CRC_PRESET})"
 
-    print_info "Updating package repositories..."
-    limactl shell "$VM_NAME" sudo dnf update -y --quiet
+    if [[ "$CRC_PRESET" != "microshift" && "$CRC_PRESET" != "openshift" ]]; then
+        print_error "Invalid CRC_PRESET '${CRC_PRESET}'. Use 'microshift' or 'openshift'."
+        exit 1
+    fi
 
-    print_info "Installing MicroShift..."
-    limactl shell "$VM_NAME" sudo dnf install -y microshift
+    crc config set preset "$CRC_PRESET"
+    crc config set cpus "$CRC_CPUS"
+    crc config set memory "$CRC_MEMORY_MB"
+    crc config set disk-size "$CRC_DISK_GB"
+    crc config set pull-secret-file "$PULL_SECRET_FILE"
+    crc config set consent-telemetry no > /dev/null 2>&1 || true
 
-    print_success "MicroShift installed"
-
-    print_info "Enabling and starting MicroShift..."
-    limactl shell "$VM_NAME" sudo systemctl enable --now microshift
-
-    print_info "Waiting for MicroShift to be ready (this may take 2-3 minutes)..."
-    # MicroShift takes some time to fully initialize
-    local retries=60
-    local count=0
-    while true; do
-        if limactl shell "$VM_NAME" sudo test -f /var/lib/microshift/resources/kubeadmin/kubeconfig 2>/dev/null; then
-            # Check if the API server is responding
-            if limactl shell "$VM_NAME" -- sudo oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig get nodes 2>/dev/null | grep -q "Ready"; then
-                print_success "MicroShift cluster is ready!"
-                break
-            fi
-        fi
-        count=$((count + 1))
-        if [[ $count -ge $retries ]]; then
-            print_warning "Timed out waiting for MicroShift to be ready."
-            print_info "You can check status later with: limactl shell $VM_NAME -- sudo systemctl status microshift"
-            break
-        fi
-        sleep 5
-    done
+    print_success "CRC configured (preset=${CRC_PRESET}, cpus=${CRC_CPUS}, memory=${CRC_MEMORY_MB}MB)"
 }
 
 ################################################################################
-# Install Host Tools (oc / kubectl)
+# Prepare the host (one-time)
 ################################################################################
-install_host_tools() {
-    print_header "Installing oc and kubectl on macOS"
+run_crc_setup() {
+    print_header "Preparing the host (crc setup)"
 
-    # Install openshift-cli (includes oc and kubectl)
-    if ! command -v oc &> /dev/null; then
-        print_info "Installing openshift-cli via Homebrew..."
-        brew install openshift-cli
-        print_success "openshift-cli installed"
-    else
-        print_info "oc is already installed: $(oc version --client 2>/dev/null || oc version 2>/dev/null | head -1)"
-    fi
+    print_info "This is a one-time step and may prompt for your macOS password..."
+    crc setup
 
-    # If kubectl is not included, install separately
-    if ! command -v kubectl &> /dev/null; then
-        print_info "Installing kubectl via Homebrew..."
-        brew install kubectl
-        print_success "kubectl installed"
-    else
-        print_info "kubectl is already installed: $(kubectl version --client 2>/dev/null | head -1)"
-    fi
+    print_success "Host preparation complete"
 }
 
 ################################################################################
-# Setup Kubeconfig on Host
+# Start the cluster
 ################################################################################
-setup_kubeconfig() {
-    print_header "Setting Up Kubeconfig on macOS"
+start_cluster() {
+    print_header "Starting the ${CRC_PRESET} cluster"
 
-    local kube_dir="${HOME}/.kube"
-    local kubeconfig_dest="${kube_dir}/microshift-kubeconfig"
+    print_info "First start can take 10-15 minutes while images are pulled..."
+    crc start --pull-secret-file "$PULL_SECRET_FILE"
 
-    mkdir -p "$kube_dir"
-
-    # Copy kubeconfig from VM to host
-    print_info "Copying kubeconfig from VM..."
-    limactl shell "$VM_NAME" -- sudo cat /var/lib/microshift/resources/kubeadmin/kubeconfig > "$kubeconfig_dest"
-
-    # Replace the internal API server address with localhost
-    sed -i '' "s|server: https://.*:6443|server: https://127.0.0.1:${MICROSHIFT_PORT}|g" "$kubeconfig_dest"
-
-    chmod 600 "$kubeconfig_dest"
-    print_success "Kubeconfig saved to: $kubeconfig_dest"
-
-    # Warn if KUBECONFIG is not set
-    if [[ -z "${KUBECONFIG:-}" ]]; then
-        print_info "To use this cluster, set your kubeconfig:"
-        echo "  export KUBECONFIG=${kubeconfig_dest}"
-        print_info "Or merge it into your default kubeconfig:"
-        echo "  export KUBECONFIG=${kubeconfig_dest}:${HOME}/.kube/config"
-    fi
+    print_success "Cluster started"
 }
 
 ################################################################################
 # Display Access Information
 ################################################################################
 display_access_info() {
-    print_header "MicroShift Cluster Access Information"
+    print_header "Cluster Access Information"
+
+    # Make 'oc' available in this shell for the status checks below.
+    eval "$(crc oc-env)" 2>/dev/null || true
 
     echo ""
-    echo -e "${GREEN}Cluster is ready!${NC}"
-    echo ""
-    echo "  Export KUBECONFIG:"
-    echo "    export KUBECONFIG=${HOME}/.kube/microshift-kubeconfig"
+    echo "  Add oc to your shell:"
+    echo "    eval \$(crc oc-env)"
     echo ""
     echo "  Verify the cluster:"
     echo "    oc get nodes"
     echo "    oc get pods -A"
     echo ""
-    echo "  Useful commands:"
-    echo "    limactl shell ${VM_NAME} -- sudo journalctl -u microshift -f    # Follow logs"
-    echo "    limactl stop ${VM_NAME}                                          # Stop the VM"
-    echo "    limactl start ${VM_NAME}                                         # Start the VM"
-    echo "    limactl delete -f ${VM_NAME}                                     # Delete the VM"
-    echo ""
-    echo "  Default kubeconfig (read-only in VM):"
-    echo "    /var/lib/microshift/resources/kubeadmin/kubeconfig"
-    echo ""
-    echo "  MicroShift is running on Fedora via Lima. The API server is"
-    echo "  forwarded to localhost:${MICROSHIFT_PORT}."
-    echo ""
 
-    # Try to show cluster status
-    if command -v oc &> /dev/null && [[ -f "${HOME}/.kube/microshift-kubeconfig" ]]; then
-        print_info "Cluster nodes:"
-        KUBECONFIG="${HOME}/.kube/microshift-kubeconfig" oc get nodes --insecure-skip-tls-verify 2>/dev/null || \
-        KUBECONFIG="${HOME}/.kube/microshift-kubeconfig" kubectl get nodes --insecure-skip-tls-verify 2>/dev/null || \
-        print_warning "Could not reach cluster API. The VM may still be starting up."
-
-        print_info "Cluster pods:"
-        KUBECONFIG="${HOME}/.kube/microshift-kubeconfig" oc get pods -A --insecure-skip-tls-verify 2>/dev/null || \
-        KUBECONFIG="${HOME}/.kube/microshift-kubeconfig" kubectl get pods -A --insecure-skip-tls-verify 2>/dev/null || true
+    if [[ "$CRC_PRESET" == "openshift" ]]; then
+        echo "  Web console (GUI):"
+        echo "    crc console                     # open the web console in your browser"
+        echo "    crc console --credentials       # show kubeadmin / developer logins"
+        echo "    URL: https://console-openshift-console.apps-crc.testing"
+    else
+        echo "  NOTE: the 'microshift' preset is headless - there is NO web console."
+        echo "        For a GUI, re-run with:  CRC_PRESET=openshift $0"
     fi
-}
+    echo ""
+    echo "  Manage the cluster:"
+    echo "    crc status      # cluster status"
+    echo "    crc stop        # stop the cluster"
+    echo "    crc start       # start the cluster"
+    echo "    crc delete      # delete the cluster"
+    echo ""
 
-################################################################################
-# Cleanup Temporary Files
-################################################################################
-cleanup() {
-    rm -f /tmp/lima-microshift-config.yaml
+    if command -v oc &> /dev/null; then
+        print_info "Cluster nodes:"
+        oc get nodes 2>/dev/null || print_warning "Cluster not reachable yet; it may still be starting."
+    fi
 }
 
 ################################################################################
 # Main
 ################################################################################
 main() {
-    print_header "MicroShift Installation for macOS"
+    print_header "MicroShift / OpenShift on macOS (via CRC)"
 
-    print_info "This script will set up a Fedora VM via Lima and install MicroShift."
+    print_info "Preset: ${CRC_PRESET}  (set CRC_PRESET=openshift for the web console GUI)"
     echo ""
-
-    local config_file="/tmp/lima-microshift-config.yaml"
 
     check_prerequisites
-    stop_existing_vm
-    generate_lima_config "$config_file"
-    start_vm "$config_file"
-    install_microshift
-    install_host_tools
-    setup_kubeconfig
+    configure_crc
+    run_crc_setup
+    start_cluster
     display_access_info
 
-    cleanup
-
     echo ""
-    print_success "MicroShift installation complete!"
+    print_success "Done - the '${CRC_PRESET}' cluster is up."
     echo ""
     print_info "To start using your cluster, run:"
-    echo "  export KUBECONFIG=${HOME}/.kube/microshift-kubeconfig"
+    echo "  eval \$(crc oc-env)"
     echo "  oc get nodes"
 }
 

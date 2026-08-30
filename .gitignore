@@ -5,6 +5,13 @@ mkdocs-site/*
 .generated
 node_modules/
 
+# Secrets / credentials (never commit)
+pull-secret.txt
+secret.json
+*pull-secret*.json
+kubeconfig
+*.kubeconfig
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

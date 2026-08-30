@@ -35,6 +35,46 @@ We'll learn how to use both the web console and command-line interface.
 
 ---
 
+## Quick Start: Local Cluster on macOS (via CRC)
+
+If you're on a **Mac**, use the provided script to run a local single-node
+cluster via **OpenShift Local (CRC)**, which bundles both OpenShift and
+MicroShift. CRC runs natively on Apple Silicon and Intel and manages the VM
+for you.
+
+> The community "MicroShift on Fedora/CentOS via Lima + copr" path is abandoned
+> (newest copr build is MicroShift 4.8.0 from 2022), so the script uses CRC.
+
+```bash
+# From the repo root, ensure your OpenShift pull secret is at pull-secret.txt
+# (download from https://console.redhat.com/openshift/install/pull-secret)
+
+# MicroShift preset (headless: oc/kubectl only, NO web console):
+./Labs/000-SetupToken/install-microshift-mac.sh
+
+# OpenShift preset (includes the web console GUI):
+CRC_PRESET=openshift ./Labs/000-SetupToken/install-microshift-mac.sh
+```
+
+The script installs `crc` + `oc` (via Homebrew) if missing, configures the
+preset/CPUs/memory/pull-secret, then runs `crc setup` and `crc start`.
+
+```bash
+eval $(crc oc-env)     # add oc to your shell
+oc get nodes
+oc get pods -A
+```
+
+> **No web console with MicroShift:** the `microshift` preset is intentionally
+> headless. For the GUI-based steps below (web console, topology, Copy login
+> command), use the `openshift` preset (or CRC directly, as documented below).
+
+Manage the cluster with `crc status`, `crc stop`, `crc start`, or `crc delete`.
+For the `openshift` preset, open the GUI with `crc console` (credentials:
+`crc console --credentials`).
+
+---
+
 ## Lab Instructions
 
 ### Step 1: Install OpenShift Local (CRC) And Get Pull Secret
@@ -47,38 +87,38 @@ We'll learn how to use both the web console and command-line interface.
 
 5. Extract and install:
 
-   ```bash
-   cd ~/Downloads                    # Navigate to Downloads
-   tar -xvf crc-linux-*.tar.xz       # Extract the tarball
-   cd crc-linux-*-amd64              # Change to extracted directory
-   sudo cp crc /usr/local/bin/       # Copy crc binary to /usr/local/bin
-   ```
+    ```bash
+    cd ~/Downloads                    # Navigate to Downloads
+    tar -xvf crc-linux-*.tar.xz       # Extract the tarball
+    cd crc-linux-*-amd64              # Change to extracted directory
+    sudo cp crc /usr/local/bin/       # Copy crc binary to /usr/local/bin
+    ```
 
 6. Verify installation:
 
-   ```bash
-   crc version
-   ```
+    ```bash
+    crc version
+    ```
 
-   Expected output:
+    Expected output:
 
-   ```text
-   CRC version: 2.x.x+<commit>
-   OpenShift version: 4.x.x
-   Podman version: 4.x.x
-   ```
+    ```text
+    CRC version: 2.x.x+<commit>
+    OpenShift version: 4.x.x
+    Podman version: 4.x.x
+    ```
 
 7. Run setup:
 
-   ```bash
-   crc setup
-   ```
+    ```bash
+    crc setup
+    ```
 
-   Expected output:
+    Expected output:
 
-   ```text
-   Your system is correctly setup for using CRC. Use 'crc start' to start the instance
-   ```
+    ```text
+    Your system is correctly setup for using CRC. Use 'crc start' to start the instance
+    ```
 
 ---
 
@@ -97,15 +137,15 @@ We'll learn how to use both the web console and command-line interface.
 
 1. Start CRC (takes 10-15 minutes on first run):
 
-   ```bash
-   crc start --pull-secret-file ~/Downloads/pull-secret.txt
-   ```
+    ```bash
+    crc start --pull-secret-file ~/Downloads/pull-secret.txt
+    ```
 
-   >Note: CRC may take 10-15 minutes on first start. Use `crc status` to monitor progress.
+    >Note: CRC may take 10-15 minutes on first start. Use `crc status` to monitor progress.
 
-   Expected output:
+    Expected output:
 
-   ```text
+    ```text
       INFO All operators are available. Ensuring stability... 
       INFO Operators are stable (2/3)...                
       INFO Operators are stable (3/3)...                
@@ -126,26 +166,26 @@ We'll learn how to use both the web console and command-line interface.
       Use the 'oc' command line interface:
       $ eval $(crc oc-env)
       $ oc login -u developer https://api.crc.testing:6443
-   ```
+    ```
 
 2. Save the credentials from the output:
-   - **Web console**: `https://console-openshift-console.apps-crc.testing`
-   - **Admin**: username `kubeadmin`, password shown in output
-   - **Developer**: username `developer`, password `developer`
+    - **Web console**: `https://console-openshift-console.apps-crc.testing`
+    - **Admin**: username `kubeadmin`, password shown in output
+    - **Developer**: username `developer`, password `developer`
 
 3. Verify it's running:
 
-   ```bash
-   crc status
-   ```
+    ```bash
+    crc status
+    ```
 
-   Expected output:
+    Expected output:
 
-   ```text
-   CRC VM:          Running
-   OpenShift:       Running (v4.x.x)
-   Podman:          Running
-   ```
+    ```text
+    CRC VM:          Running
+    OpenShift:       Running (v4.x.x)
+    Podman:          Running
+    ```
 
 ---
 
@@ -219,9 +259,9 @@ crc                  Ready    control-plane,master,worker   10m   v1.xx.x
 3. Log in as `developer` / `developer`
 4. You'll see the OpenShift web console home page
 
-   ![OpenShift web console overview dashboard](overview.png)
+    ![OpenShift web console overview dashboard](overview.png)
 
-   ![OpenShift web console login screen](images/openshift-console.png)
+    ![OpenShift web console login screen](images/openshift-console.png)
 
 ---
 
@@ -229,11 +269,11 @@ crc                  Ready    control-plane,master,worker   10m   v1.xx.x
 
 1. Click **Home** → **Projects** → **Create Project**
 
-   ![Create Project dialog in OpenShift web console](create-project.png)
+    ![Create Project dialog in OpenShift web console](create-project.png)
 
 2. Fill in the details:
-   - **Name**: `lab-000-setup`
-   - **Display name**: `Getting Started with OpenShift` (optional)
+    - **Name**: `lab-000-setup`
+    - **Display name**: `Getting Started with OpenShift` (optional)
 
 3. Click **Create**
 
@@ -272,33 +312,33 @@ This is the same mechanism used by CI/CD pipelines, `kubectl`/`oc` scripts, and 
 
 2. Click your **username** in the top-right corner of the masthead. A dropdown opens:
 
-   ![Username dropdown menu showing Copy login command](images/token-01-user-menu.png)
+    ![Username dropdown menu showing Copy login command](images/token-01-user-menu.png)
 
 3. Click **Copy login command**.
 
-   > If a new tab opens asking you to choose an identity provider, click it (e.g. `developer` / `htpasswd_provider`) and log in again with your credentials. This re-authentication step generates a fresh, short-lived token for you.
+    > If a new tab opens asking you to choose an identity provider, click it (e.g. `developer` / `htpasswd_provider`) and log in again with your credentials. This re-authentication step generates a fresh, short-lived token for you.
 
 4. On the page that opens, click the **Display Token** link:
 
-   ![Copy login command page with the Display Token link](images/token-02-copy-login-command.png)
+    ![Copy login command page with the Display Token link](images/token-02-copy-login-command.png)
 
 5. The **Display Token** page now shows your personal API token and a ready-to-use login command:
 
-   ![Display Token page showing the token value and oc login command](images/token-03-display-token.png)
+    ![Display Token page showing the token value and oc login command](images/token-03-display-token.png)
 
-   You'll see something similar to:
+    You'll see something similar to:
 
-   ```text
-   Your API token is:
+    ```text
+    Your API token is:
 
-   sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK
+    sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK
 
-   Log in with this token:
+    Log in with this token:
 
-   oc login --token=sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK --server=https://api.crc.testing:6443
-   ```
+    oc login --token=sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK --server=https://api.crc.testing:6443
+    ```
 
-   > **Security note:** Treat your token exactly like a password. Anyone with this token can act as you on the cluster until it expires or is revoked. Never commit it to source control or share it in screenshots/logs.
+    > **Security note:** Treat your token exactly like a password. Anyone with this token can act as you on the cluster until it expires or is revoked. Never commit it to source control or share it in screenshots/logs.
 
 6. Copy the full `oc login --token=... --server=...` command (or just the token value) — you'll use it in the next step.
 
@@ -310,52 +350,52 @@ Instead of `oc login -u developer -p developer ...`, you can authenticate non-in
 
 1. Open a terminal and paste the command copied from the **Display Token** page:
 
-   ```bash
-   oc login --token=sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK --server=https://api.crc.testing:6443
-   ```
+    ```bash
+    oc login --token=sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK --server=https://api.crc.testing:6443
+    ```
 
-   Expected output:
+    Expected output:
 
-   ![Terminal showing a successful oc login using the token](images/token-04-cli-login-success.png)
+    ![Terminal showing a successful oc login using the token](images/token-04-cli-login-success.png)
 
-   ```text
-   Logged into "https://api.crc.testing:6443" as "developer" using the token provided.
+    ```text
+    Logged into "https://api.crc.testing:6443" as "developer" using the token provided.
 
-   You have one project on this server: "lab-000-setup"
+    You have one project on this server: "lab-000-setup"
 
-   Using project "lab-000-setup".
-   ```
+    Using project "lab-000-setup".
+    ```
 
 2. Verify you're authenticated as the expected user:
 
-   ```bash
-   oc whoami
-   ```
+    ```bash
+    oc whoami
+    ```
 
-   Expected output:
+    Expected output:
 
-   ```text
-   developer
-   ```
+    ```text
+    developer
+    ```
 
 3. You can always retrieve the token for your **current** CLI session (e.g. to reuse it in another tool, a `curl` request, or a CI pipeline secret) with:
 
-   ```bash
-   oc whoami -t
-   ```
+    ```bash
+    oc whoami -t
+    ```
 
-   Expected output:
+    Expected output:
 
-   ```text
-   sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK
-   ```
+    ```text
+    sha256~AbCdEfGhIjKlMnOpQrStUvWxYz0123456789-ABCDEFGHIJK
+    ```
 
 4. You can also use the token directly with the REST API, for example to list projects with `curl`:
 
-   ```bash
-   curl -sk -H "Authorization: Bearer $(oc whoami -t)" \
-     https://api.crc.testing:6443/apis/project.openshift.io/v1/projects
-   ```
+    ```bash
+    curl -sk -H "Authorization: Bearer $(oc whoami -t)" \
+      https://api.crc.testing:6443/apis/project.openshift.io/v1/projects
+    ```
 
 ---
 

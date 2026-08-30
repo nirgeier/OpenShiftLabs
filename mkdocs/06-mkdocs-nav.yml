@@ -27,3 +27,6 @@ nav:
   - 018 Network Policies: 018-network-policies/README.md
   - 019 Quotas & Limits: 019-quotas-limits/README.md
   - 020 Health Probes: 020-health-probes/README.md
+- Tasks:
+  - Overview: Tasks/README.md
+  - OpenShift CLI Tasks: Tasks/OpenShift-CLI-Tasks.md
